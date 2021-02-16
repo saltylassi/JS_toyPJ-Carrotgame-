@@ -13,6 +13,11 @@ let timerFunc;
 let time = 10;
 let isPlaying = false;
 
+const bgSound = new Audio("../sound/bg.mp3");
+const bugSound = new Audio("../sound/bug_pull.mp3");
+const carrotSound = new Audio("../sound/carrot_pull.mp3");
+const winBGSound = new Audio("../sound/game_win.mp3");
+
 const makeObject = (times, name) => {
     for (var i = 0; i < times; i++) {
         const element = document.createElement("div");
@@ -31,6 +36,7 @@ const handleLose = () => {
     lose.classList.add("result");
     playBtn.innerHTML = `<i class="fas fa-play"></i>`;
     isPlaying = false;
+    stopMusic();
 };
 
 const handleWin = () => {
@@ -38,10 +44,21 @@ const handleWin = () => {
     win.classList.add("result");
     playBtn.innerHTML = `<i class="fas fa-play"></i>`;
     isPlaying = false;
+    stopMusic();
+    winBGSound.play();
+};
+
+const playMusic = () => {
+    bgSound.play();
+};
+
+const stopMusic = () => {
+    bgSound.pause();
 };
 
 const handlePlayClick = () => {
     if (isPlaying === false) {
+        playMusic();
         isPlaying = true;
 
         playBtn.innerHTML = `<i class="fas fa-stop"></i>`;
@@ -82,10 +99,10 @@ const handlePlayClick = () => {
         makeObject(7, "carrot");
         makeObject(7, "bug");
     } else {
-        console.log("playing");
         clearInterval(timerFunc);
         playBtn.innerHTML = `<i class="fas fa-play"></i>`;
         isPlaying = false;
+        stopMusic();
     }
 };
 
@@ -100,10 +117,12 @@ const handleObjectClick = (event) => {
             event.target.style.display = "none";
             number -= 1;
             remain.innerText = number;
+            carrotSound.play();
             if (number < 1) {
                 handleWin();
             }
         } else {
+            bugSound.play();
             handleLose();
         }
     }
