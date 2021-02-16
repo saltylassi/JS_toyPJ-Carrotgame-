@@ -112,18 +112,20 @@ const handleResize = () => {
 };
 
 const handleObjectClick = (event) => {
-    if (event.target.className === "bug" || event.target.className === "carrot") {
-        if (event.target.className === "carrot") {
-            event.target.style.display = "none";
-            number -= 1;
-            remain.innerText = number;
-            carrotSound.play();
-            if (number < 1) {
-                handleWin();
+    if (isPlaying === true) {
+        if (event.target.className === "bug" || event.target.className === "carrot") {
+            if (event.target.className === "carrot") {
+                event.target.style.display = "none";
+                number -= 1;
+                remain.innerText = number;
+                carrotSound.play();
+                if (number < 1) {
+                    handleWin();
+                }
+            } else {
+                bugSound.play();
+                handleLose();
             }
-        } else {
-            bugSound.play();
-            handleLose();
         }
     }
 };
